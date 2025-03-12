@@ -2,7 +2,7 @@
 
 ##usage: ./dolog.sh "Comments to log"
 
-PARENT_DIR=/home/logesh-tt0826/class
+PARENT_DIR=/home/logesh-tt0826/sql_class
 LOG_FILE=${PARENT_DIR}/logfile
 
 log(){

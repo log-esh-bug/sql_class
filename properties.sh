@@ -50,3 +50,9 @@ drop_lock(){
 		rm ${LOCK_DIR}/$(basename $1).lock 
 	fi
 }
+
+
+#############################################################################################
+#Postgresql Stuffs
+
+pg_username=logesh-tt0826
