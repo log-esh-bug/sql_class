@@ -314,10 +314,6 @@ if [ ! -d $LOCK_DIR ];then
 	mkdir $LOCK_DIR
 fi
 
-if [ ! -d $DATA_DIR ];then
-	mkdir $DATA_DIR
-fi
-
 if [ ! -e $LOG_SCRIPT ];then
 	echo "Log script not found!"
 	exit 1
