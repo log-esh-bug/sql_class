@@ -1,7 +1,5 @@
 #!/bin/bash
 
-id=
-
 #postgres Specifications
 
 INFO_TABLE=info
@@ -13,9 +11,12 @@ PGDATA=/home/logesh-tt0826/pg/data
 
 #Directories
 PARENT_DIR=/home/logesh-tt0826/sql_class
+LOCK_DIR=${PARENT_DIR}/lock
 
-#Logfile
+#Frequency datas
+EXAM_FREQUENCY=3
+TOPPER_FINDING_FREQUENCY=5
+
+#Logging stuffs
 LOG_FILE=${PARENT_DIR}/logfile
-
-#Script Files
 LOG_SCRIPT=${PARENT_DIR}/dolog.sh

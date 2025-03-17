@@ -5,6 +5,16 @@ source pgproperties.sh
 pg_isready -q
 ret=${?}
 
+is_table_exists(){
+    a=$(psql $PGDATABASE -qtc "SELECT COUNT(*) FROM pg_tables WHERE tablename='$1';")
+    if ((a==1));then
+        return 0
+    else
+        return 1
+    fi
+}
+
+
 if ((ret!=0));then
     $LOG_SCRIPT "Postgres server is not running"
     echo "Postgres server is not running. Quiting....."
@@ -17,24 +27,51 @@ if ( ! (psql -lqt | cut -d '|' -f 1 | grep -cq ${PGDATABASE}) );then
     exit 1
 fi
 
-
-if (($(psql $PGDATABASE -qtc "SELECT COUNT(*) FROM pg_tables WHERE tablename='${INFO_TABLE}'")!=1));then
-    psql $PGDATABASE -qtc "CREATE TABLE $INFO_TABLE(
-                            id SERIAL PRIMARY KEY,
-                            name VARCHAR(50),
-                            age INTEGER,
-                            contact VARCHAR(50));"
-    echo "$INFO_TABLE not exits.Created one!"
-    id=1000
-    echo $id >> table.id
+if ! is_table_exists ${INFO_TABLE};then
+    psql --dbname=${PGDATABASE} --quiet --tuples-only --command="CREATE TABLE ${INFO_TABLE}(
+                                                                    id SERIAL PRIMARY KEY,
+                                                                    name VARCHAR(50),
+                                                                    age INTEGER,
+                                                                    contact VARCHAR(50));"
+    echo "${INFO_TABLE} not exits.Created one!"
 fi
 
-if (($(psql $PGDATABASE -qtc "SELECT COUNT(*) FROM pg_tables WHERE tablename='${MARKS_TABLE}'")!=1));then
-    psql $PGDATABASE -qtc "CREATE TABLE ${MARKS_TABLE}(id INT,sub1 INT,sub2 INT,sub3 INT,sub4 INT,total INT)"
-    echo "$MARKS_TABLE not exits.Created one!"
+if ! is_table_exists ${MARKS_TABLE};then
+    psql --dbname=${PGDATABASE} --quiet --tuples-only --command="CREATE TABLE ${MARKS_TABLE}(
+                                                                    id INTEGER REFERENCES ${INFO_TABLE}(id) ON DELETE CASCADE,
+                                                                    sub1 INTEGER,
+                                                                    sub2 INTEGER,
+                                                                    sub3 INTEGER,
+                                                                    sub4 INTEGER,
+                                                                    total INTEGER
+                                                                    );"
+    echo "${MARKS_TABLE} not exits.Created one!"
 fi
 
-# if (($(psql $PGDATABASE -qtc "SELECT COUNT(*) FROM pg_tables WHERE tablename='${INFO_TABLE}'")!=1));then
-#     psql $PGDATABASE -qtc "CREATE TABLE ${INFO_TABLE}(Id INT,Name VARCHAR(50),Age INT,Contact VARCHAR(100))"
-#     echo "$INFO_TABLE not exits.Created one!"
-# fi
+if ! is_table_exists ${TOPPERS_TABLE};then
+    psql --dbname=${PGDATABASE} --quiet --tuples-only --command="CREATE TABLE ${TOPPERS_TABLE}(
+                                id INTEGER REFERENCES ${INFO_TABLE}(id) ON DELETE CASCADE,
+                                name VARCHAR(50),
+                                sub1 INTEGER,
+                                sub2 INTEGER,
+                                sub3 INTEGER,
+                                sub4 INTEGER,
+                                total INTEGER
+                                );"
+    echo "${TOPPERS_TABLE} not exits.Created one!"
+fi
+
+
+fetch_lock(){
+	while [ -e ${LOCK_DIR}/$(basename $1).lock ];
+	do
+		sleep 1		
+	done
+	touch ${LOCK_DIR}/$(basename $1).lock 
+}
+
+drop_lock(){
+	if [ -e ${LOCK_DIR}/$(basename $1).lock  ];then
+		rm ${LOCK_DIR}/$(basename $1).lock 
+	fi
+}

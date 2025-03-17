@@ -1,6 +1,23 @@
-2025-03-12 17:59:28 IST [bash 43363] LOG: Could not able to connect to mydb1
-2025-03-12 18:04:59 IST [bash 44029] LOG: Could not able to connect to mydb1
-2025-03-12 18:05:14 IST [bash 44093] LOG: Could not able to connect to mydb1
-2025-03-12 18:05:33 IST [bash 44149] LOG: Could not able to connect to mydb1
-2025-03-12 18:06:02 IST [bash 44231] LOG: Could not able to connect to mydb1
-2025-03-17 09:51:00 IST [setup.sh 7489] LOG: Postgres server is not running
+2025-03-17 15:06:16 IST [startexam.sh 35506] LOG: Exam Frequency set to 3
+2025-03-17 15:06:16 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:19 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:23 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:26 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:29 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:32 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:35 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:38 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:41 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:44 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:47 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:50 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:53 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:56 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:06:59 IST [startexam.sh 35506] LOG: Marks updated in marks table.
+2025-03-17 15:07:10 IST [findtopper.sh 35801] LOG: Topper Finding Frequency set to 5
+2025-03-17 15:07:10 IST [findtopper.sh 35801] LOG: Toppers calculated and updated in toppers table.
+2025-03-17 15:07:15 IST [findtopper.sh 35801] LOG: Toppers calculated and updated in toppers table.
+2025-03-17 15:07:20 IST [findtopper.sh 35801] LOG: Toppers calculated and updated in toppers table.
+2025-03-17 15:07:25 IST [findtopper.sh 35801] LOG: Toppers calculated and updated in toppers table.
+2025-03-17 15:07:30 IST [findtopper.sh 35801] LOG: Toppers calculated and updated in toppers table.
+2025-03-17 15:07:35 IST [findtopper.sh 35801] LOG: Toppers calculated and updated in toppers table.

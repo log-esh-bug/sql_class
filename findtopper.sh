@@ -1,35 +1,20 @@
 #!/bin/bash
 
-source properties.sh
+source setup.sh
+TOPPER_FINDING_FREQUENCY=5
 
-# echo "$LOG_SCRIPT"
-
-sleep_time=2
-
-cleanup(){
-	drop_lock $SCORE_DB
-}
-trap cleanup EXIT
+if [ -n $1 ];then
+    TOPPER_FINDING_FREQUENCY=$1
+    $LOG_SCRIPT "Topper Finding Frequency set to $1"
+fi
 
 find_topper_helper(){
-    fetch_lock $SCORE_DB
-    sort -k 6nr $SCORE_DB | awk 'NR==1,NR==3 {print}' > $TOPPER_DB
-    drop_lock $SCORE_DB
-
-    $LOG_SCRIPT "Toppers calculated and inserted to $TOPPER_DB"
+    psql --dbname=${PGDATABASE} --quiet --tuples-only --command="SELECT topper_finder()" > /dev/null
+    $LOG_SCRIPT "Toppers calculated and updated in ${TOPPERS_TABLE} table."
 }
 
-if [ -n "$1" ];then
-	$LOG_SCRIPT "$(basename $0) says Sleep time set to $1"
-    sleep_time=$1
-fi
-
-if [ ! -e $SCORE_DB ];then   
-    $LOG_SCRIPT "Database[$SCORE_DB] not exists! Quitting..."
-fi
-
-while((1))
+while true
 do
     find_topper_helper
-    sleep $sleep_time
+    sleep $TOPPER_FINDING_FREQUENCY
 done

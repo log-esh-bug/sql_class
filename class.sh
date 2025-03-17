@@ -7,16 +7,13 @@ source setup.sh
 
 #######################################################
 
-# cleanup(){
-# 	# echo "Cleanup called"
-# 	drop_lock $INFO_DB
-# 	drop_lock $SCORE_DB
-# 	drop_lock $TOPPER_DB
-# 	drop_lock startexam.pid	
-# 	drop_lock findtopper.pid
-# 	drop_lock startbackup.pid
-# }
-# trap cleanup EXIT
+cleanup(){
+	# echo "Cleanup called"
+	drop_lock startexam.pid	
+	drop_lock findtopper.pid
+	drop_lock startbackup.pid
+}
+trap cleanup EXIT
 
 display_help(){
 	cat <<- _eof_
@@ -62,16 +59,15 @@ add_record(){
 	read -p "Enter the age      : " age
 	read -p "Enter the contact  : " contact
 
-	psql $PGDATABASE -qtc "INSERT INTO ${INFO_TABLE} VALUES(1028,'${name}',${age},'${contact}')"
-	
+	psql --dbname=${PGDATABASE} --quiet --command="INSERT INTO ${INFO_TABLE} (name,age,contact) VALUES('${name}',${age},'${contact}')"
+	echo "Record (${name}, ${age}, ${contact})added successfully."
 }
 
 remove_record(){
 
     read -p "Enter the name: " name
-    # name='logesh'
 
-    matches=$(psql ${PGDATABASE} -tc "SELECT * FROM ${INFO_TABLE} WHERE name='${name}'")
+    matches=$(psql --dbname=${PGDATABASE} --tuples-only --command="SELECT * FROM ${INFO_TABLE} WHERE name='${name}'")
     if [ -z "$matches" ]; then
         echo "Match not found!"
         return
@@ -85,7 +81,7 @@ remove_record(){
         case $ch in
             y|Y)
                 local temp_id=$(echo $matches | cut -d '|' -f 1)
-                psql ${PGDATABASE} -qtc "DELETE FROM ${INFO_TABLE} WHERE id=${temp_id}"
+                psql --dbname=${PGDATABASE} --quiet --tuples-only --command="DELETE FROM ${INFO_TABLE} WHERE id=${temp_id}"
                 ;;
             n|N)
                 echo "Record not deleted"
@@ -97,7 +93,7 @@ remove_record(){
     read -p "Multiple matches found with $name! Do you want to delete all? [y/n] " ch
 
     if [[ $ch == y ]]; then
-        psql ${PGDATABASE} -qtc "DELETE FROM ${INFO_TABLE} WHERE name='${name}'"
+        psql --dbname=${PGDATABASE} --quiet --tuples-only --command="DELETE FROM ${INFO_TABLE} WHERE name='${name}'"
         echo "All records with $name have been deleted."
         return
     fi
@@ -108,7 +104,7 @@ remove_record(){
 remove_record_by_id(){
     read -p "Enter the id of the student record to be deleted : " temp_id
 
-    matches=$(psql ${PGDATABASE} -tc "SELECT * FROM ${INFO_TABLE} WHERE id=${temp_id}")
+    matches=$(psql --dbname=${PGDATABASE} --tuples-only --command="SELECT * FROM ${INFO_TABLE} WHERE id=${temp_id}")
     if [ -z "$matches" ]; then
         echo "Match not found!"
         return
@@ -119,7 +115,7 @@ remove_record_by_id(){
     read -p "Do you want to continue?[y/n]:" ch
     case $ch in
         y|Y)
-            psql ${PGDATABASE} -qtc "DELETE FROM ${INFO_TABLE} WHERE id=${temp_id}"
+            psql --dbname=${PGDATABASE} --quiet --tuples-only --commands="DELETE FROM ${INFO_TABLE} WHERE id=${temp_id}"
             ;;
         n|N)
             echo "Record not deleted"
@@ -133,12 +129,11 @@ find_record(){
 	case $choice in
 		n|name)
 			read -p "Enter the name: " name
-			matches=$(psql ${PGDATABASE} -tc "SELECT * FROM ${INFO_TABLE} WHERE name='${name}'")
-			echo "$matches"
+			psql --dbname=${PGDATABASE} --no-align --field-separator=$'\t' --command="SELECT * FROM ${INFO_TABLE} WHERE name='${name}'"
 			;;
 		i|id)
 			read -p "Enter the id: " id
-			matches=$(psql ${PGDATABASE} -tc "SELECT * FROM ${INFO_TABLE} WHERE id='${id}'")
+			psql --dbname=${PGDATABASE} --no-align --field-separator=$'\t' --command="SELECT * FROM ${INFO_TABLE} WHERE id='${id}'"
 			;;
 		*)
 			echo "Invalid choice!"
@@ -148,10 +143,10 @@ find_record(){
 
 empty_database(){
 	read -p "Are you sure want to destroy the database![y/n/q]:" choice
-	echo "Your choice $choice"
 	case $choice in
 		y | Y)
-			psql ${PGDATABASE} -tqc "TRUNCATE TABLE $INFO_TABLE CASCADE"
+			psql --dbname=${PGDATABASE} --quiet --command="TRUNCATE TABLE ${INFO_TABLE} CASCADE"
+			echo "Database Destroyed!"
 			;;
 		q | Q)
 			echo "Program Terminated successfully!"
@@ -168,13 +163,13 @@ print_db(){
 	do
 		case $i in
 			Info | i)
-				psql --dbname=${PGDATABASE} --command="SELECT * FROM $INFO_TABLE"
+				psql --dbname=${PGDATABASE} --pset pager=off --command="SELECT * FROM $INFO_TABLE"
 				;;
 			Scores | s)
-				psql --dbname=${PGDATABASE} --command="SELECT * FROM $MARKS_TABLE"
+				psql --dbname=${PGDATABASE} --pset pager=off --command="SELECT * FROM $MARKS_TABLE"
 				;;
 			Toppers | t)
-				psql --dbname=${PGDATABASE} --command="SELECT * FROM $TOPPERS_TABLE"
+				psql --dbname=${PGDATABASE} --pset pager=off --command="SELECT * FROM $TOPPERS_TABLE"
 				;;
 			*)
 				echo "Invalid choice!"
@@ -256,7 +251,7 @@ interactive_mode(){
 	do
 		case $choice in
 			r)
-				remove_record_by_name
+				remove_record
 				;;
 			d)
 				empty_database
@@ -337,7 +332,7 @@ do
 			interactive_mode
 			;;
 		-r | --remove)
-			remove_record_by_name
+			remove_record
 			;;
 		-d | --destroy)
 			empty_database
