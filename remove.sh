@@ -59,6 +59,3 @@ remove_record_by_id(){
             ;;        
     esac
 }
-
-# remove_record_by_id
-# remove_record_by_name

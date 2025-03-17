@@ -1,0 +1,29 @@
+/******** QUERY *********/
+SELECT * FROM info
+/************************/
+
+ id |      name      | age |     contact      
+----+----------------+-----+------------------
+  1 | balu           | 123 | 123456789
+  2 | logesh         |  56 | tdcytvub hi uhcw
+  3 | kamal          |  12 | 4567
+  4 | yuio           |   3 | dfghjk
+  5 | sdfg           |  34 | 345678
+  6 | kamesh         |  56 | 2345678
+  7 | cupu           |  34 | asdfgh
+  8 | ajay           |  46 | 12345
+  9 | tamil          |  27 | 0987654321
+ 10 | gandhi         |  91 | wedfvb
+ 11 | jack           |  78 | 12345689
+ 12 | gand           |  45 | srggggrg
+ 13 | kanna          |  79 | 12345678
+ 14 | cat            |  36 | 12345678
+ 15 | babu           |  16 | 12345678
+ 16 | Logesh waran E |  19 | styhjk wd
+ 17 | logesh         |   3 | 2345678
+ 18 | logesh         |  12 | 12345678
+ 19 | hardik         |  34 | 12345
+ 20 | william        |  25 | 123456720
+ 21 | logesh         |  34 | !@#$%^&*(2345
+(21 rows)
+

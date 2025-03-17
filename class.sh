@@ -1,54 +1,22 @@
 #!/bin/bash 
 
 #######################################################
-# Script Variables
-# PARENT_DIR: Parent directory of the script
-# INFO_DB: Database file path
-# SCORE_DB: Marks Database file path
-# TOPPER_DB: Toppers Database file path
-# id: Student id
-# EXAM_FREQUENCY: Exam frequency	
-# TOPPER_FINDING_FREQUENCY: Topper finding frequency
 
-PARENT_DIR=
-LOCK_DIR=
-DATA_DIR=
-REMOTE_BACKUP_DIR=
 
-source properties.sh
-
-id=
+source setup.sh
 
 #######################################################
-# Script Functions
-# cleanup: Cleanup the lock
-# display_help: Display help
-# display_help_interactive: Display help for interactive mode
-# fetch_details: Fetch the details of the student
-# print_record_by_line: Print the record by line number
-# add_record: Add record to the database
-# remove_record_by_name: Remove record by name
-# find_record: Find record by name/id
-# empty_database: Empty the database
-# print_db: Print the database
-# start_exam_helper: Start the exam
-# stop_exam_helper: Stop the exam
-# start_finding_topper_helper: Start the topper finding
-# stop_finding_topper_helper: Stop the topper finding
-# interactive_mode: Interactive mode
-# start_backend_helper: Start the backend helper
-# stop_backend_helper: Stop the backend helper
 
-cleanup(){
-	# echo "Cleanup called"
-	drop_lock $INFO_DB
-	drop_lock $SCORE_DB
-	drop_lock $TOPPER_DB
-	drop_lock startexam.pid	
-	drop_lock findtopper.pid
-	drop_lock startbackup.pid
-}
-trap cleanup EXIT
+# cleanup(){
+# 	# echo "Cleanup called"
+# 	drop_lock $INFO_DB
+# 	drop_lock $SCORE_DB
+# 	drop_lock $TOPPER_DB
+# 	drop_lock startexam.pid	
+# 	drop_lock findtopper.pid
+# 	drop_lock startbackup.pid
+# }
+# trap cleanup EXIT
 
 display_help(){
 	cat <<- _eof_
@@ -89,90 +57,35 @@ display_help_interactive(){
 	_eof_
 }
 
-#Usage fetch_details n(name)/i(id) [Value]
-fetch_details(){
-    field=
-    case $1 in
-        n|name)
-            field=2
-            ;;
-        i|id)
-            field=1
-            ;;
-        *)
-            echo "Invalid Option"
-            return
-            ;;
-    esac
-    fetch_lock $INFO_DB
-    line=$(cat $INFO_DB| cut --fields=${field} |grep --line-number $2|cut -f 1 -d ":")
-    drop_lock $INFO_DB
-    echo $line
-}
-
-# usage: print_record_by_line [line_number]
-print_record_by_line(){
-    echo "Id:" $(sed -n ${1}p $INFO_DB | cut -f 1)
-    echo "Name:" $(sed -n ${1}p $INFO_DB | cut -f 2)
-    echo "Age: "$(sed -n ${1}p $INFO_DB | cut -f 3)
-    echo "Contact: "$(sed -n ${1}p $INFO_DB | cut -f 4)
-}
-
 add_record(){
-	
-	if [ -z $id ];then
-		id=$(tail -n 1 ${INFO_DB} | cut -f 1)
-		id=$((id+1))
-	fi
+	read -p "Enter the name     : " name
+	read -p "Enter the age      : " age
+	read -p "Enter the contact  : " contact
 
-	read -p "Enter the name	   	: " name
-	read -p "Enter the age	   	: " age
-	if [ $(echo $age | grep --count --word-regexp '[0-9]*') -eq 0 ];then
-		echo "Enter a valid age (Integer) value!"
-		return
-	fi
-	read -p "Enter the contact 	: " contact
-
-	fetch_lock $INFO_DB
-	printf "%03d\t%s\t%s\t%s\n" "$id" "$name" "$age" "$contact">> $INFO_DB
-	drop_lock $INFO_DB
-
-	id=$((id+1))
-	
-	echo "Student detail [ $name $age $contact ] added successfully!"
+	psql $PGDATABASE -qtc "INSERT INTO ${INFO_TABLE} VALUES(1028,'${name}',${age},'${contact}')"
 	
 }
 
-remove_record_by_name(){
+remove_record(){
+
     read -p "Enter the name: " name
-	fetch_lock $INFO_DB
-    matches=$(cat $INFO_DB | cut --fields=2 | grep -n --word-regexp "$name")
+    # name='logesh'
+
+    matches=$(psql ${PGDATABASE} -tc "SELECT * FROM ${INFO_TABLE} WHERE name='${name}'")
     if [ -z "$matches" ]; then
-        drop_lock $INFO_DB
         echo "Match not found!"
         return
     fi
     ct=$(echo "$matches"|wc -l)
-    echo "Matches found: $ct "
-
-    if ((ct == 0)); then
-        drop_lock $INFO_DB
-        echo "Match not found!"
-        return
-    fi
 
     if ((ct == 1)); then
-        drop_lock $INFO_DB
         echo "Record to be deleted:"
-        line=$(fetch_details n $name)
-        sed -n ${line}p $INFO_DB
+        echo $matches
         read -p "Do you want to continue?[y/n]:" ch
         case $ch in
             y|Y)
-                fetch_lock $INFO_DB
-                sed -i "/${name}/d" "$INFO_DB"
-                drop_lock $INFO_DB
-                echo "$name record deleted successfully"
+                local temp_id=$(echo $matches | cut -d '|' -f 1)
+                psql ${PGDATABASE} -qtc "DELETE FROM ${INFO_TABLE} WHERE id=${temp_id}"
                 ;;
             n|N)
                 echo "Record not deleted"
@@ -184,62 +97,48 @@ remove_record_by_name(){
     read -p "Multiple matches found with $name! Do you want to delete all? [y/n] " ch
 
     if [[ $ch == y ]]; then
-        sed -i "/${name}/d" "$INFO_DB"
+        psql ${PGDATABASE} -qtc "DELETE FROM ${INFO_TABLE} WHERE name='${name}'"
         echo "All records with $name have been deleted."
-        drop_lock $INFO_DB
         return
     fi
 
-    echo -e "Matches Found\nId\tName\tAge\tContact"
-    for i in $matches
-    do
-        line=$(echo $i|cut -f 1 -d ":")
-        sed -n ${line}p $INFO_DB
-    done
-
-    read -p "Enter the Id of the student record you want to delete(XXXX format) : " d_id
-    drop_lock $INFO_DB
-
-    d_line=$(fetch_details i $d_id)
-
-    if [ -z "$d_line" ]; then
-        echo "No record found with id $d_id"
-        return
-    fi
-    
-    fetch_lock $INFO_DB
-    # sed -i "${d_line}d" "$INFO_DB"
-	sed -i "${d_line}d" "$INFO_DB"
-    drop_lock $INFO_DB
-
-	echo "$name with $d_id deleted successfully!"
-    
+	remove_record_by_id
 }
+
+remove_record_by_id(){
+    read -p "Enter the id of the student record to be deleted : " temp_id
+
+    matches=$(psql ${PGDATABASE} -tc "SELECT * FROM ${INFO_TABLE} WHERE id=${temp_id}")
+    if [ -z "$matches" ]; then
+        echo "Match not found!"
+        return
+    fi
+
+    echo "Record to be deleted:"
+    echo "$matches" | sed "s/|*//g"
+    read -p "Do you want to continue?[y/n]:" ch
+    case $ch in
+        y|Y)
+            psql ${PGDATABASE} -qtc "DELETE FROM ${INFO_TABLE} WHERE id=${temp_id}"
+            ;;
+        n|N)
+            echo "Record not deleted"
+            ;;        
+    esac
+}
+
 
 find_record(){
 	read -p "Find by Name/Id[n/i] : " choice
 	case $choice in
 		n|name)
 			read -p "Enter the name: " name
-			fetch_lock $INFO_DB
-			matches=$(cat $INFO_DB | cut --fields=2 | grep -n --word-regexp "$name")
-			if [ -z "$matches" ]; then
-				drop_lock $INFO_DB
-				echo "Match not found!"
-				return
-			fi
-			drop_lock $INFO_DB
-			echo -e "Matches Found\nId\tName\tAge\tContact"
-			for i in $matches
-			do
-				line=$(echo $i|cut -f 1 -d ":")
-				sed -n ${line}p $INFO_DB
-			done
+			matches=$(psql ${PGDATABASE} -tc "SELECT * FROM ${INFO_TABLE} WHERE name='${name}'")
+			echo "$matches"
 			;;
 		i|id)
 			read -p "Enter the id: " id
-			line=$(fetch_details i $id)
-			print_record_by_line $line
+			matches=$(psql ${PGDATABASE} -tc "SELECT * FROM ${INFO_TABLE} WHERE id='${id}'")
 			;;
 		*)
 			echo "Invalid choice!"
@@ -252,8 +151,7 @@ empty_database(){
 	echo "Your choice $choice"
 	case $choice in
 		y | Y)
-			rm $INFO_DB
-			echo "$INFO_DB(DataBase) destroyed successfully!"
+			psql ${PGDATABASE} -tqc "TRUNCATE TABLE $INFO_TABLE CASCADE"
 			;;
 		q | Q)
 			echo "Program Terminated successfully!"
@@ -265,30 +163,23 @@ empty_database(){
 }
 
 print_db(){
-	read -p "Enter the database to print [INFO_DB/SCORE_DB/TOPPER_DB](space separated choices):" choice
+	read -p "Enter the database to print [Info(i)/Scores(s)/Toppers(t)](space separated choices):" choice
 	for i in $choice
 	do
 		case $i in
-			INFO_DB)
-				fetch_lock $INFO_DB
-				cat $INFO_DB
-				drop_lock $INFO_DB
+			Info | i)
+				psql --dbname=${PGDATABASE} --command="SELECT * FROM $INFO_TABLE"
 				;;
-			SCORE_DB)
-				fetch_lock $SCORE_DB
-				cat $SCORE_DB
-				drop_lock $SCORE_DB
+			Scores | s)
+				psql --dbname=${PGDATABASE} --command="SELECT * FROM $MARKS_TABLE"
 				;;
-			TOPPER_DB)
-				fetch_lock $TOPPER_DB
-				cat $TOPPER_DB
-				drop_lock $TOPPER_DB
+			Toppers | t)
+				psql --dbname=${PGDATABASE} --command="SELECT * FROM $TOPPERS_TABLE"
 				;;
 			*)
 				echo "Invalid choice!"
 				;;
 		esac
-		echo "---------------------------------------------"
 	done
 }
 

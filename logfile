@@ -3,3 +3,4 @@
 2025-03-12 18:05:14 IST [bash 44093] LOG: Could not able to connect to mydb1
 2025-03-12 18:05:33 IST [bash 44149] LOG: Could not able to connect to mydb1
 2025-03-12 18:06:02 IST [bash 44231] LOG: Could not able to connect to mydb1
+2025-03-17 09:51:00 IST [setup.sh 7489] LOG: Postgres server is not running
