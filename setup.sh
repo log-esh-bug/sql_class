@@ -60,3 +60,5 @@ if ! is_table_exists ${TOPPERS_TABLE};then
                                 );"
     echo "${TOPPERS_TABLE} not exits.Created one!"
 fi
+
+# psql ${PGDATABASE} -f routines.sql
