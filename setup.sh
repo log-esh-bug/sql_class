@@ -2,9 +2,6 @@
 
 source pgproperties.sh
 
-pg_isready -q
-ret=${?}
-
 is_table_exists(){
     a=$(psql $PGDATABASE -qtc "SELECT COUNT(*) FROM pg_tables WHERE tablename='$1';")
     if ((a==1));then
@@ -14,6 +11,9 @@ is_table_exists(){
     fi
 }
 
+pg_isready -q
+ret=${?}
+
 
 if ((ret!=0));then
     $LOG_SCRIPT "Postgres server is not running"
@@ -22,8 +22,8 @@ if ((ret!=0));then
 fi
 
 if ( ! (psql -lqt | cut -d '|' -f 1 | grep -cq ${PGDATABASE}) );then
-    $LOG_SCRIPT "Could not able to connect to ${PGDATABASE}"
-    echo "Could not able to connect to ${PGDATABASE}. Quiting...."
+    $LOG_SCRIPT "Could not able to connect to ${PGDATABASE} database"
+    echo "Could not able to connect to '${PGDATABASE}' database. Quiting...."
     exit 1
 fi
 

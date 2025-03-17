@@ -1,4 +1,4 @@
--- Function to random marks between 70 and 100
+    -- Function to random marks between 70 and 100
 CREATE OR REPLACE FUNCTION get_random_marks() 
         RETURNS INTEGER AS $$
         BEGIN

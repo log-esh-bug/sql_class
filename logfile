@@ -21,3 +21,8 @@
 2025-03-17 15:07:25 IST [findtopper.sh 35801] LOG: Toppers calculated and updated in toppers table.
 2025-03-17 15:07:30 IST [findtopper.sh 35801] LOG: Toppers calculated and updated in toppers table.
 2025-03-17 15:07:35 IST [findtopper.sh 35801] LOG: Toppers calculated and updated in toppers table.
+2025-03-17 15:52:57 IST [class.sh 40186] LOG: Could not able to connect to class
+2025-03-17 15:53:17 IST [class.sh 40253] LOG: Could not able to connect to class database
+2025-03-17 15:53:24 IST [class.sh 40307] LOG: Could not able to connect to class database
+2025-03-17 15:53:34 IST [class.sh 40367] LOG: Could not able to connect to class database
+2025-03-17 15:53:42 IST [class.sh 40413] LOG: Could not able to connect to class database
