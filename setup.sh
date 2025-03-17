@@ -60,18 +60,3 @@ if ! is_table_exists ${TOPPERS_TABLE};then
                                 );"
     echo "${TOPPERS_TABLE} not exits.Created one!"
 fi
-
-
-fetch_lock(){
-	while [ -e ${LOCK_DIR}/$(basename $1).lock ];
-	do
-		sleep 1		
-	done
-	touch ${LOCK_DIR}/$(basename $1).lock 
-}
-
-drop_lock(){
-	if [ -e ${LOCK_DIR}/$(basename $1).lock  ];then
-		rm ${LOCK_DIR}/$(basename $1).lock 
-	fi
-}
