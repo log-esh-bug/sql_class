@@ -1,18 +1,27 @@
-# **Student's School Register - A shell Script**
+# **Student's School Register - A shell Script to store datas in postgresql**
 ## Script files 
-### `class.sh `
-It contains main script to add,remove the record from base(A typical database) as well as routines to create,destroy the base.
-### `as.sh` [ Add Student ]
-Calling this will prompt you to recurrently add the student details untill you press n(no).
-### `remove.sh` [ Remove a record from the database ]
-- It will ask for the user name , if the name is    not availabe it will throughs an error and exists.
-- If the db contains multipla names of the same record it will ask for the id.
+## `class.sh `
+- It contains main script to add,remove the record from database(info table) as well as routines to create,destroy the info,marks,toppers tables.
+- Through this routine, we can control the happening of exam, topper 
+finding and backup.
+- To know how to work with class.sh use  
+                
+        class.sh --help (or)
+        class.sh -h
+- The following command will invoke interactive mode.
+
+        class.sh --interactive
+        class.ah -i
+
+Routines used by class.sh 
+----------------------------------
 ### `startexam.sh`
-Routines to conduct examination(i.e to find random marks between 40 to 100) and insert the mark for record found in base and add them to Marksbase.     
+Routines to conduct examination(i.e to find random marks between 70 to 100) and insert the mark for record found in base and add them to Marksbase.     
 - Will recurrently do this untill killed by another process with an interval mentioned as sleep_time.
 ### `findtopper.sh`
 Routines to find toppers based on the marks available from Marksbase.sh.
 - Will recurrently do this untill killed by another process with an interval mentioned as sleep_time.
+### `startbackup.sh`
 ### `backup`
 Routine to copy the files in the current directory to a directory specified.
 - Will do backup only called manually by the user.

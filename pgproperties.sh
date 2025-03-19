@@ -22,12 +22,6 @@ BACKUP_FREQUENCY=10
 LOG_FILE=${PARENT_DIR}/logfile
 LOG_SCRIPT=${PARENT_DIR}/dolog.sh
 
-#Backup related stuffs
-BACKUP_THRESHOLD=5
-S_REMOTE_BACKUP_HOME_DIR="/home/test2/backup_class"
-S_REMOTE_BACKUP_DIR="${S_REMOTE_BACKUP_HOME_DIR}/backups"
-S_REMOTE_BACKUP_SERVER_SCRIPT="${S_REMOTE_BACKUP_HOME_DIR}/bp_server.sh"
-
 #Remote details
 S_REMOTE_HOST_NAME="zlabs-auto3"
 
