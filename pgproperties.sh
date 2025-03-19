@@ -5,9 +5,9 @@
 INFO_TABLE=info
 MARKS_TABLE=marks
 TOPPERS_TABLE=toppers
-PGDATABASE=mydb
+PGDATABASE=class
 PGUSER=logesh-tt0826
-PGDATA=/home/logesh-tt0826/pg/data
+PGDATA=/home/logesh-tt0826/pg/class
 
 #Directories
 PARENT_DIR=/home/logesh-tt0826/sql_class
@@ -16,6 +16,7 @@ LOCK_DIR=${PARENT_DIR}/lock
 #Frequency datas
 EXAM_FREQUENCY=3
 TOPPER_FINDING_FREQUENCY=5
+BACKUP_FREQUENCY=10
 
 #Logging stuffs
 LOG_FILE=${PARENT_DIR}/logfile

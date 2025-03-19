@@ -26,3 +26,9 @@
 2025-03-17 15:53:24 IST [class.sh 40307] LOG: Could not able to connect to class database
 2025-03-17 15:53:34 IST [class.sh 40367] LOG: Could not able to connect to class database
 2025-03-17 15:53:42 IST [class.sh 40413] LOG: Could not able to connect to class database
+2025-03-19 11:28:20 IST [startbackup.sh 35664] LOG: Could not able to connect to mydb database
+2025-03-19 11:38:02 IST [startbackup.sh 36747] LOG: Could not able to connect to mydb database
+2025-03-19 11:41:35 IST [startbackup.sh 37046] LOG: Could not able to connect to class database
+2025-03-19 11:42:52 IST [startbackup.sh 37185] LOG: Backup failed.Safely Exiting...
+2025-03-19 11:45:45 IST [startbackup.sh 37583] LOG: Taken Backup.
+2025-03-19 11:45:56 IST [startbackup.sh 37583] LOG: Taken Backup.
