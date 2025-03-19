@@ -10,7 +10,11 @@ if [ -n $1 ];then
 fi
 
 update_marks(){
-    psql --dbname=${PGDATABASE} --quiet --tuples-only --command="SELECT marks_updater()" > /dev/null
+    psql --dbname=${PGDATABASE} --quiet --tuples-only --command="SELECT marks_updater()" >> /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        $LOG_SCRIPT "Marks updation failed."
+        return
+    fi
     $LOG_SCRIPT "Marks updated in ${MARKS_TABLE} table."
 }
 

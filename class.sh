@@ -240,7 +240,7 @@ start_backup_helper(){
 }
 
 stop_backup_helper(){
-	stop_backup_helper startbackup
+	stop_backend_helper startbackup
 }
 
 interactive_mode(){
