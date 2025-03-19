@@ -103,3 +103,8 @@
 2025-03-19 12:20:04 IST [startbackup.sh 49761] LOG: Taken Backup.
 2025-03-19 12:20:15 IST [startbackup.sh 49761] LOG: Taken Backup.
 2025-03-19 12:21:02 IST [startbackup.sh 50098] LOG: Taken Backup.
+2025-03-19 12:26:35 IST [startexam.sh 51284] LOG: Exam Frequency set to 3
+2025-03-19 12:26:35 IST [startexam.sh 51284] LOG: Marks updated in marks table.
+2025-03-19 12:26:58 IST [findtopper.sh 51416] LOG: Topper Finding Frequency set to 5
+2025-03-19 12:26:58 IST [findtopper.sh 51416] LOG: Toppers calculated and updated in toppers table.
+2025-03-19 12:27:32 IST [startbackup.sh 51653] LOG: Taken Backup.
