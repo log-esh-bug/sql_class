@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source pgproperties.sh
+# source pgproperties.sh
 
 
 #Function to random marks between 70 and 100

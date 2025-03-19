@@ -2,6 +2,8 @@
 
 source pgproperties.sh
 
+REQUIRED_ROUTINES="get_random_marks marks_updater topper_finder"
+
 is_table_exists(){
     a=$(psql $PGDATABASE -qtc "SELECT COUNT(*) FROM pg_tables WHERE tablename='$1';")
     if ((a==1));then
@@ -61,4 +63,12 @@ if ! is_table_exists ${TOPPERS_TABLE};then
     echo "${TOPPERS_TABLE} not exits.Created one!"
 fi
 
-# psql ${PGDATABASE} -f routines.sql
+functions=$(psql --dbname=${PGDATABASE} --tuples-only --command="SELECT proname AS function_name FROM pg_proc WHERE pronamespace = 'public'::regnamespace;")
+   
+for i in ${REQUIRED_ROUTINES};do
+    if [[ ! $functions =~ $i ]];then
+        echo "Routine $i not found. Creating From define_routines.sh"
+        source define_routines.sh
+        exit
+    fi
+done
