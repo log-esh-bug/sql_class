@@ -235,12 +235,27 @@ stop_finding_topper_helper(){
 	stop_backend_helper findtopper
 }
 
+##pass
+##start_bp -> TO start backup daemon in the remote machine
+##stop_bp -> To kill backup daemon in the remote machine
 start_backup_helper(){
-	start_backend_helper startbackup $BACKUP_FREQUENCY
+	ssh ${S_USERNAME}@${S_REMOTE_HOST_NAME} "bash ${BACKUP_SERVER} start_bp ${BACKUP_FREQUENCY}" & > /dev/null
+	if [ $? -ne 0 ]; then
+		$LOG_SCRIPT "Backup failed."
+		echo "Backup failed."
+		return
+	fi
+	$LOG_SCRIPT "Backup Initiated Successfully( Every ${BACKUP_FREQUENCY} )."
 }
 
 stop_backup_helper(){
-	stop_backend_helper startbackup
+	ssh ${S_USERNAME}@${S_REMOTE_HOST_NAME} "bash ${BACKUP_SERVER} stop_bp" & > /dev/null
+	if [ $? -ne 0 ]; then
+		$LOG_SCRIPT "Could not be able to stop backup!."
+		echo "Could not be able to stop backup!."
+		return
+	fi
+	$LOG_SCRIPT "Backup stopped."
 }
 
 interactive_mode(){

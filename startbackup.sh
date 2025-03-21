@@ -1,19 +1,22 @@
 #!/bin/bash
 source setup.sh
 
+if [ -n "$1" ];then
+    BACKUP_FREQUENCY=$1
+fi
+
 backup_helper(){
-    pgbackrest --stanza=class backup > /dev/null
+    # pgbackrest --stanza=class backup > /dev/null
+
+    ssh ${S_USERNAME}@${S_REMOTE_HOST_NAME} "bash ${BACKUP_SCRIPT}" > /dev/null
 
     if [ $? -ne 0 ]
     then
         $LOG_SCRIPT "Backup failed.Safely Exiting..."
+        # rm backup.pid
         exit 1
     fi
-    $LOG_SCRIPT "Taken Backup."
+    $LOG_SCRIPT "Backup Initiated Successfully( Every ${BACKUP_FREQUENCY} )."
 }
 
-while true
-do
-    backup_helper
-    sleep $BACKUP_FREQUENCY
-done
+backup_helper

@@ -108,3 +108,46 @@
 2025-03-19 12:26:58 IST [findtopper.sh 51416] LOG: Topper Finding Frequency set to 5
 2025-03-19 12:26:58 IST [findtopper.sh 51416] LOG: Toppers calculated and updated in toppers table.
 2025-03-19 12:27:32 IST [startbackup.sh 51653] LOG: Taken Backup.
+2025-03-21 17:35:08 IST [startexam.sh 106679] LOG: Exam Frequency set to 10
+2025-03-21 17:35:08 IST [startexam.sh 106679] LOG: Marks updated in marks table.
+2025-03-21 17:35:18 IST [startexam.sh 106679] LOG: Marks updated in marks table.
+2025-03-21 17:35:24 IST [startexam.sh 106790] LOG: Exam Frequency set to 40
+2025-03-21 17:35:24 IST [startexam.sh 106790] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Exam Frequency set to 
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:29 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:38:30 IST [startexam.sh 107596] LOG: Marks updated in marks table.
+2025-03-21 17:39:05 IST [startexam.sh 107904] LOG: Marks updated in marks table.
+2025-03-21 17:39:10 IST [startexam.sh 107904] LOG: Marks updated in marks table.
+2025-03-21 17:39:16 IST [startexam.sh 107999] LOG: Exam Frequency set to 100
+2025-03-21 17:39:16 IST [startexam.sh 107999] LOG: Marks updated in marks table.
+2025-03-21 17:43:59 IST [startbackup.sh 108448] LOG: Backup failed.Safely Exiting...
+2025-03-21 17:44:09 IST [startbackup.sh 108519] LOG: Backup failed.Safely Exiting...
+2025-03-21 17:47:05 IST [startbackup.sh 109091] LOG: Backup failed.Safely Exiting...
+2025-03-21 18:01:59 IST [class.sh 110676] LOG: Backup Initiated Successfully( Every 10 ).

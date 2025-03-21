@@ -2,9 +2,7 @@
 
 source setup.sh
 
-EXAM_FREQUENCY=5
-
-if [ -n $1 ];then
+if [ -n "$1" ];then
     EXAM_FREQUENCY=$1
     $LOG_SCRIPT "Exam Frequency set to $1"
 fi

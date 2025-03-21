@@ -23,10 +23,9 @@ LOG_FILE=${PARENT_DIR}/logfile
 LOG_SCRIPT=${PARENT_DIR}/dolog.sh
 
 #Remote details
-S_REMOTE_HOST_NAME="zlabs-auto3"
-
-#Credentials S_ ->ssh
-S_USERNAME=test2
+S_REMOTE_HOST_NAME=zlabs-distdb8
+S_USERNAME=sas
+BACKUP_SERVER=/home/sas/backup_class/bp_server.sh
 
 
 #LOCK_ROUTINES
