@@ -153,3 +153,14 @@
 2025-03-21 18:01:59 IST [class.sh 110676] LOG: Backup Initiated Successfully( Every 10 ).
 2025-03-21 18:19:54 IST [class.sh 114169] LOG: Backup Initiated Successfully( Every 10 ).
 2025-03-21 18:20:01 IST [class.sh 114345] LOG: Backup stopped.
+2025-03-24 10:04:00 IST [class.sh 22953] LOG: Postgres server is not running
+2025-03-24 10:05:37 IST [class.sh 23063] LOG: Backup Initiated Successfully( Every 60 ).
+2025-03-24 10:06:55 IST [class.sh 23595] LOG: Backup stopped.
+2025-03-24 10:09:51 IST [class.sh 23721] LOG: Backup Initiated Successfully( Every 60 ).
+2025-03-24 10:10:15 IST [class.sh 23927] LOG: Backup stopped.
+2025-03-24 10:21:53 IST [class.sh 24400] LOG: Backup Initiated Successfully( Every 60 ).
+2025-03-24 10:22:30 IST [class.sh 24657] LOG: Backup stopped.
+2025-03-24 10:24:05 IST [class.sh 24796] LOG: Backup Initiated Successfully( Every 60 ).
+2025-03-24 10:25:10 IST [class.sh 24966] LOG: Backup stopped.
+2025-03-24 10:58:23 IST [class.sh 28563] LOG: Backup Initiated Successfully( Every 60 ).
+2025-03-24 11:00:09 IST [class.sh 29010] LOG: Backup stopped.

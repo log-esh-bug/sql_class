@@ -1,10 +1,7 @@
 #!/bin/bash 
 
 #######################################################
-
-
 source setup.sh
-
 #######################################################
 
 cleanup(){
@@ -235,9 +232,10 @@ stop_finding_topper_helper(){
 	stop_backend_helper findtopper
 }
 
-##pass
-##start_bp -> TO start backup daemon in the remote machine
+##Avake bp_server with the following options
+##start_bp <Frequency> -> TO start backup daemon in the remote machine
 ##stop_bp -> To kill backup daemon in the remote machine
+
 start_backup_helper(){
 	ssh ${S_USERNAME}@${S_REMOTE_HOST_NAME} "bash ${BACKUP_SERVER} start_bp ${BACKUP_FREQUENCY}" & > /dev/null
 	if [ $? -ne 0 ]; then
